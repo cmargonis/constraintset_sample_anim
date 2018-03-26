@@ -2,6 +2,9 @@ package co.thebeat.constraintsetpower
 
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
+import android.support.constraint.ConstraintSet
+import android.support.transition.AutoTransition
+import android.support.transition.TransitionManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.AppCompatTextView
@@ -31,5 +34,77 @@ class MainActivity : AppCompatActivity() {
         subtitle = findViewById(R.id.subtitle)
         author = findViewById(R.id.author)
         button = findViewById(R.id.button)
+        button.setOnClickListener { toggleAnimations(it as AppCompatButton) }
     }
+
+    private fun toggleAnimations(button: AppCompatButton) {
+        when (button.tag) {
+            "there" -> {
+                playExpandAnimation()
+                button.setText(R.string.button_and_back)
+                button.tag = "back"
+            }
+            else -> {
+                playContractAnimation()
+                button.setText(R.string.button_there)
+                button.tag = "there"
+            }
+        }
+    }
+
+    private fun playExpandAnimation() {
+        val transition = AutoTransition()
+
+        TransitionManager.beginDelayedTransition(container, transition)
+        val set = ConstraintSet()
+        set.clone(container)
+
+        // Image transition
+        set.clear(image.id, ConstraintSet.BOTTOM)
+        set.clear(image.id, ConstraintSet.START)
+
+        // Title transition
+        set.clear(title.id, ConstraintSet.BOTTOM)
+        set.clear(title.id, ConstraintSet.END)
+        set.connect(title.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
+        set.connect(title.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+
+        set.setVisibility(subtitle.id, ConstraintSet.VISIBLE)
+
+        set.setVisibility(divider.id, ConstraintSet.VISIBLE)
+
+        set.setVisibility(textDescr.id, ConstraintSet.VISIBLE)
+        set.setVisibility(author.id, ConstraintSet.VISIBLE)
+
+        set.applyTo(container)
+    }
+
+    private fun playContractAnimation() {
+        val transition = AutoTransition()
+
+        TransitionManager.beginDelayedTransition(container, transition)
+        val set = ConstraintSet()
+        set.clone(container)
+
+        // Image transition
+        set.connect(image.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
+        set.connect(image.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
+        set.connect(image.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+
+        // Title transition
+        set.clear(title.id, ConstraintSet.TOP)
+        set.connect(title.id, ConstraintSet.START, image.id, ConstraintSet.START)
+        set.connect(title.id, ConstraintSet.END, image.id, ConstraintSet.END)
+        set.connect(title.id, ConstraintSet.BOTTOM, image.id, ConstraintSet.TOP)
+
+        set.setVisibility(subtitle.id, ConstraintSet.GONE)
+
+        set.setVisibility(textDescr.id, ConstraintSet.GONE)
+        set.setVisibility(author.id, ConstraintSet.GONE)
+
+        set.setVisibility(divider.id, ConstraintSet.GONE)
+
+        set.applyTo(container)
+    }
+
 }
