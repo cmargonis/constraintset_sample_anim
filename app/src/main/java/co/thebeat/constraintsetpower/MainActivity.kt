@@ -10,13 +10,12 @@ import android.widget.ImageView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var container: ConstraintLayout
-    private lateinit var topDivider: View
-    private lateinit var bottomDivider: View
+    private lateinit var divider: View
     private lateinit var textDescr: AppCompatTextView
     private lateinit var image: ImageView
     private lateinit var title: AppCompatTextView
     private lateinit var subtitle: AppCompatTextView
-    private lateinit var popupMessage: AppCompatTextView
+    private lateinit var author: AppCompatTextView
     private lateinit var button: AppCompatButton
 
 
@@ -25,12 +24,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         container = findViewById(R.id.container)
-        topDivider = findViewById(R.id.topDivider)
-        bottomDivider = findViewById(R.id.bottomDivider)
-        textDescr = findViewById(R.id.textDescription)
+        divider = findViewById(R.id.divider)
         image = findViewById(R.id.image)
+        textDescr = findViewById(R.id.textDescription)
         title = findViewById(R.id.title)
         subtitle = findViewById(R.id.subtitle)
-        popupMessage = findViewById(R.id.popupMessage)
+        author = findViewById(R.id.author)
+        button = findViewById(R.id.button)
     }
 }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Animation Sample</string>
+    <string name="hobbit_description">He charged the ranks of the goblins of Mount Gram in the Battle of the Green Fields, and knocked their king Golfimbul’s head clean off with a wooden club. It sailed a hundred yards through the air and went down a rabbit-hole, and in this way the battle was won and the game of Golf invented in the same moment.</string>
+    <string name="hobbit_subtitle">In a hole in the ground there lived a hobbit.</string>
+    <string name="button_there">There</string>
+    <string name="button_and_back">And back again</string>
 </resources>
