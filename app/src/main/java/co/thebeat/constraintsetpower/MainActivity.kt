@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
 import android.support.transition.AutoTransition
 import android.support.transition.TransitionManager
+import android.support.transition.TransitionSet
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.AppCompatTextView
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var author: AppCompatTextView
     private lateinit var button: AppCompatButton
 
+    private val animationDuration = 500L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +56,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun playExpandAnimation() {
         val transition = AutoTransition()
+        transition.duration = animationDuration
+        transition.ordering = TransitionSet.ORDERING_SEQUENTIAL
 
         TransitionManager.beginDelayedTransition(container, transition)
         val set = ConstraintSet()
@@ -70,9 +74,7 @@ class MainActivity : AppCompatActivity() {
         set.connect(title.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
 
         set.setVisibility(subtitle.id, ConstraintSet.VISIBLE)
-
         set.setVisibility(divider.id, ConstraintSet.VISIBLE)
-
         set.setVisibility(textDescr.id, ConstraintSet.VISIBLE)
         set.setVisibility(author.id, ConstraintSet.VISIBLE)
 
@@ -81,6 +83,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun playContractAnimation() {
         val transition = AutoTransition()
+        transition.ordering = TransitionSet.ORDERING_SEQUENTIAL
+        transition.duration = animationDuration
 
         TransitionManager.beginDelayedTransition(container, transition)
         val set = ConstraintSet()
@@ -106,5 +110,4 @@ class MainActivity : AppCompatActivity() {
 
         set.applyTo(container)
     }
-
 }
