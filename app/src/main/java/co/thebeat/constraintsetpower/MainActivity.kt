@@ -3,9 +3,7 @@ package co.thebeat.constraintsetpower
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
-import android.support.transition.AutoTransition
 import android.support.transition.TransitionManager
-import android.support.transition.TransitionSet
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.AppCompatTextView
@@ -21,8 +19,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var subtitle: AppCompatTextView
     private lateinit var author: AppCompatTextView
     private lateinit var button: AppCompatButton
-
-    private val animationDuration = 500L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,11 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playExpandAnimation() {
-        val transition = AutoTransition()
-        transition.duration = animationDuration
-        transition.ordering = TransitionSet.ORDERING_SEQUENTIAL
-
-        TransitionManager.beginDelayedTransition(container, transition)
+        TransitionManager.beginDelayedTransition(container)
         val set = ConstraintSet()
         set.clone(container)
 
@@ -70,7 +62,8 @@ class MainActivity : AppCompatActivity() {
         // Title transition
         set.clear(title.id, ConstraintSet.BOTTOM)
         set.clear(title.id, ConstraintSet.END)
-        set.connect(title.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
+        set.connect(title.id, ConstraintSet.START,
+                ConstraintSet.PARENT_ID, ConstraintSet.START)
         set.connect(title.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
 
         set.setVisibility(subtitle.id, ConstraintSet.VISIBLE)
@@ -82,17 +75,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playContractAnimation() {
-        val transition = AutoTransition()
-        transition.ordering = TransitionSet.ORDERING_SEQUENTIAL
-        transition.duration = animationDuration
-
-        TransitionManager.beginDelayedTransition(container, transition)
+        TransitionManager.beginDelayedTransition(container)
         val set = ConstraintSet()
         set.clone(container)
 
         // Image transition
         set.connect(image.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-        set.connect(image.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
         set.connect(image.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
 
         // Title transition
@@ -102,10 +90,8 @@ class MainActivity : AppCompatActivity() {
         set.connect(title.id, ConstraintSet.BOTTOM, image.id, ConstraintSet.TOP)
 
         set.setVisibility(subtitle.id, ConstraintSet.GONE)
-
         set.setVisibility(textDescr.id, ConstraintSet.GONE)
         set.setVisibility(author.id, ConstraintSet.GONE)
-
         set.setVisibility(divider.id, ConstraintSet.GONE)
 
         set.applyTo(container)
